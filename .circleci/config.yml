@@ -12,5 +12,10 @@ jobs:
       - run:
           name: "Run unit tests"
           command: |
-            cd hello
+            cd captcha
             go test
+      - run:
+        name: "Run the results"
+        command: |
+          cd day01
+          go build && ./day01
