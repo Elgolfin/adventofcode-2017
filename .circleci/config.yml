@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: golang:latest
-    working_directory: ~/adventofcode-2017
+    working_directory: /go/src/github.com/elgolfin/adventofcode-2017
     branches:
       only:
         - master
