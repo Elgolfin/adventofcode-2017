@@ -15,7 +15,7 @@ jobs:
             cd captcha
             go test
       - run:
-        name: "Run the results"
-        command: |
-          cd day01
-          go build && ./day01
+          name: "Run the results"
+          command: |
+            cd day01
+            go build && ./day01
