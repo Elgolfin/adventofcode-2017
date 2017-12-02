@@ -13,9 +13,9 @@ jobs:
           name: "Run unit tests"
           command: |
             cd captcha
-            go test
+            go test -cover
       - run:
-          name: "Run the results"
+          name: "Get the results"
           command: |
             cd day01
             go build && ./day01
