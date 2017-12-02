@@ -15,5 +15,6 @@ func main() {
 	}
 
 	fmt.Printf("Day01 --- Part One --- result is: %v\n", captcha.Get(string(content)))
+	fmt.Printf("Day01 --- Part Two --- result is: %v\n", captcha.GetNew(string(content)))
 
 }
