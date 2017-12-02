@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/elgolfin/adventofcode-2017/captcha"
+	"github.com/elgolfin/adventofcode-2017/checksum"
 )
 
 var input string
@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day01 --- Part One --- result is: %v\n", captcha.Get(string(content)))
-	fmt.Printf("Day01 --- Part Two --- result is: %v\n", captcha.GetNew(string(content)))
+	fmt.Printf("Day02 --- Part One --- result is: %v\n", checksum.Generate(string(content)))
+	// fmt.Printf("Day02 --- Part Two --- result is: %v\n", captcha.GetNew(string(content)))
 
 }

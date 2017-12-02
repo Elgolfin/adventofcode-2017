@@ -12,10 +12,10 @@ jobs:
       - run:
           name: "Run unit tests"
           command: |
-            cd captcha
-            go test -cover
+            go test -cover ./...
       - run:
           name: "Get the results"
           command: |
-            cd day01
-            go build && ./day01
+            go install ./...
+            day01 -input inputs/day01.txt
+            day02 -input inputs/day02.txt
