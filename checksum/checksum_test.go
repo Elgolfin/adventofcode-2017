@@ -41,7 +41,22 @@ func TestGetLargest(t *testing.T) {
 		}
 	}
 }
-
+func TestGetDivisible(t *testing.T) {
+	cases := []struct {
+		in   string
+		want int
+	}{
+		{"5	9	2	8", 4},
+		{"9	4	7	3", 3},
+		{"3	8	6	5", 2},
+	}
+	for _, c := range cases {
+		got := GetDivisible(c.in)
+		if got != c.want {
+			t.Errorf("Expected GetDivisible(%q) to return %d, got %d", c.in, c.want, got)
+		}
+	}
+}
 func TestGenerate(t *testing.T) {
 	cases := []struct {
 		in   string
@@ -55,6 +70,22 @@ func TestGenerate(t *testing.T) {
 		got := Generate(c.in)
 		if got != c.want {
 			t.Errorf("Expected Generate(%q) to return %d, got %d", c.in, c.want, got)
+		}
+	}
+}
+func TestGenerateNew(t *testing.T) {
+	cases := []struct {
+		in   string
+		want int
+	}{
+		{`5	9	2	8
+9	4	7	3
+3	8	6	5`, 9},
+	}
+	for _, c := range cases {
+		got := GenerateNew(c.in)
+		if got != c.want {
+			t.Errorf("Expected GenerateNew(%q) to return %d, got %d", c.in, c.want, got)
 		}
 	}
 }

@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day02 --- Part One --- result is: %v\n", checksum.Generate(string(content)))
-	// fmt.Printf("Day02 --- Part Two --- result is: %v\n", captcha.GetNew(string(content)))
+	fmt.Printf("Day02 --- Part Two --- result is: %v\n", checksum.GenerateNew(string(content)))
 
 }
