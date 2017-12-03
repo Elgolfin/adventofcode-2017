@@ -19,3 +19,4 @@ jobs:
             go install ./...
             day01 -input inputs/day01.txt
             day02 -input inputs/day02.txt
+            day03 -input 312051
