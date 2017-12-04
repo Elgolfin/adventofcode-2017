@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day04 --- Part One --- result is: %v\n", passphrase.GetValidPassphrases(string(content)))
-	// fmt.Printf("Day04 --- Part Two --- result is: %v\n", passphrase.GetNew(string(content)))
+	fmt.Printf("Day04 --- Part Two --- result is: %v\n", passphrase.GetValidPassphrasesNew(string(content)))
 
 }
