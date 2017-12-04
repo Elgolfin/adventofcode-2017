@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day03 --- Part One --- result is: %v\n", spiralMemory.GetSteps(inputFloat))
-	// fmt.Printf("Day03 --- Part Two --- result is: %v\n", checksum.GenerateNew(string(content)))
+	fmt.Printf("Day03 --- Part Two --- result is: %v\n", spiralMemory.GetFirstValueLargerThan(inputFloat))
 
 }
