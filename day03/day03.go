@@ -6,7 +6,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/elgolfin/adventofcode-2017/spiralMemory"
+	"github.com/elgolfin/adventofcode-2017/spiralmem"
 )
 
 var input string
@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day03 --- Part One --- result is: %v\n", spiralMemory.GetSteps(inputFloat))
-	fmt.Printf("Day03 --- Part Two --- result is: %v\n", spiralMemory.GetFirstValueLargerThan(inputFloat))
+	fmt.Printf("Day03 --- Part One --- result is: %v\n", spiralmem.GetSteps(inputFloat))
+	fmt.Printf("Day03 --- Part Two --- result is: %v\n", spiralmem.GetFirstValueLargerThan(inputFloat))
 
 }

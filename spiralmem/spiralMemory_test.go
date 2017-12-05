@@ -1,4 +1,4 @@
-package spiralMemory
+package spiralmem
 
 import (
 	"testing"
