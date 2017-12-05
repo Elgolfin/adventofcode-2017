@@ -24,6 +24,30 @@ func FindExit(content string) int {
 	return steps
 }
 
+// FindExitSranger returns the number of steps to escape the maze of intructions
+func FindExitSranger(content string) int {
+	instructions := initializeArray(content)
+	steps := 0
+	offset := 0
+	previousOffset := 0
+	// fmt.Printf("%d. %v\n", steps, instructions)
+	for true {
+		previousOffset = offset
+		offset += instructions[offset]
+		if instructions[previousOffset] >= 3 {
+			instructions[previousOffset]--
+		} else {
+			instructions[previousOffset]++
+		}
+		steps++
+		// fmt.Printf("%d. %v\n", steps, instructions)
+		if offset >= len(instructions) {
+			break
+		}
+	}
+	return steps
+}
+
 func initializeArray(content string) []int {
 	lines := strings.Split(content, "\n")
 	arrayOfInts := make([]int, len(lines))

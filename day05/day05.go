@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day05 --- Part One --- result is: %v\n", maze.FindExit(string(content)))
-	//fmt.Printf("Day05 --- Part Two --- result is: %v\n", passphrase.GetValidPassphrasesNew(string(content)))
+	fmt.Printf("Day05 --- Part Two --- result is: %v\n", maze.FindExitSranger(string(content)))
 
 }
