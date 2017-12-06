@@ -4,7 +4,6 @@ import (
 	"testing"
 )
 
-// Get solves the puzzle of the Day 1
 func TestGet(t *testing.T) {
 	cases := []struct {
 		in   string
