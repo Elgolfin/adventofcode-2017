@@ -9,7 +9,7 @@ type MemoryBank struct {
 }
 
 // Redistribute reallocs a bank of memory until a blocks-in-banks configuration produced has already been seen before
-func Redistribute(str string) int {
+func Redistribute(str string) (int, string, MemoryBank) {
 	var memBank MemoryBank
 	footPrint := make(map[string]bool)
 	steps := 0
@@ -26,6 +26,23 @@ func Redistribute(str string) int {
 			break
 		} else {
 			footPrint[checksum] = true
+		}
+	}
+
+	return steps, checksum, memBank
+}
+
+// GetLoopSize reallocs a bank of memory until a blocks-in-banks configuration produced has already been seen before, and then get the size of the loop that continously produces the same comfiguration
+func GetLoopSize(str string) int {
+	_, checksumStep, memBank := Redistribute(str)
+	steps := 0
+
+	for true {
+		steps++
+		memBank.Redistribute()
+		checksum := memBank.String()
+		if checksumStep == checksum {
+			break
 		}
 	}
 

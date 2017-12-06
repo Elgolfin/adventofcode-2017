@@ -23,7 +23,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day06 --- Part One --- result is: %v\n", memrealloc.Redistribute(string(content)))
-	// fmt.Printf("Day06 --- Part Two --- result is: %v\n", maze.FindExitSranger(string(content)))
+	steps, _, _ := memrealloc.Redistribute(string(content))
+	fmt.Printf("Day06 --- Part One --- result is: %v\n", steps)
+	fmt.Printf("Day06 --- Part Two --- result is: %v\n", memrealloc.GetLoopSize(string(content)))
 
 }
