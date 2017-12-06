@@ -1,13 +1,12 @@
 package maze
 
 import (
-	"strconv"
-	"strings"
+	"github.com/elgolfin/adventofcode-2017/sliceutil"
 )
 
 // FindExit returns the number of steps to escape the maze of intructions
 func FindExit(content string) int {
-	instructions := initializeArray(content)
+	instructions := sliceutil.Atoi(content, "\n")
 	steps := 0
 	offset := 0
 	previousOffset := 0
@@ -26,7 +25,7 @@ func FindExit(content string) int {
 
 // FindExitSranger returns the number of steps to escape the maze of intructions
 func FindExitSranger(content string) int {
-	instructions := initializeArray(content)
+	instructions := sliceutil.Atoi(content, "\n")
 	steps := 0
 	offset := 0
 	previousOffset := 0
@@ -46,13 +45,4 @@ func FindExitSranger(content string) int {
 		}
 	}
 	return steps
-}
-
-func initializeArray(content string) []int {
-	lines := strings.Split(content, "\n")
-	arrayOfInts := make([]int, len(lines))
-	for i, instruction := range lines {
-		arrayOfInts[i], _ = strconv.Atoi(instruction)
-	}
-	return arrayOfInts
 }
