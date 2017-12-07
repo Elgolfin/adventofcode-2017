@@ -19,13 +19,13 @@ func TestAtoi(t *testing.T) {
 	}
 	for _, c := range cases {
 		got := Atoi(c.in, c.sep)
-		if !Equal(got, c.want) {
+		if !EqualInt(got, c.want) {
 			t.Errorf("Expected Atoi(%q, %q) to return %v, got %v", c.in, c.sep, c.want, got)
 		}
 	}
 }
 
-func TestEqual(t *testing.T) {
+func TestEqualInt(t *testing.T) {
 	cases := []struct {
 		s1   []int
 		s2   []int
@@ -38,9 +38,48 @@ func TestEqual(t *testing.T) {
 		{[]int{2, 1, 9, 7}, nil, false},
 	}
 	for _, c := range cases {
-		got := Equal(c.s1, c.s2)
+		got := EqualInt(c.s1, c.s2)
 		if got != c.want {
-			t.Errorf("Expected Equal(%v, %v) to return %v, got %v", c.s1, c.s2, c.want, got)
+			t.Errorf("Expected EqualInt(%v, %v) to return %v, got %v", c.s1, c.s2, c.want, got)
+		}
+	}
+}
+
+func TestEqualString(t *testing.T) {
+	cases := []struct {
+		s1   []string
+		s2   []string
+		want bool
+	}{
+		{[]string{"5", "1", "9", "5"}, []string{"5", "1", "9", "5"}, true},
+		{[]string{"7", "5", "3", "7"}, []string{"2", "1", "9", "5"}, false},
+		{[]string{"2", "1", "9", "7"}, []string{"2", "1", "9"}, false},
+		{nil, nil, true},
+		{[]string{"2", "1", "9", "7"}, nil, false},
+		{make([]string, 0), make([]string, 0), true},
+	}
+	for _, c := range cases {
+		got := EqualString(c.s1, c.s2)
+		if got != c.want {
+			t.Errorf("Expected EqualString(%v, %v) to return %v, got %v", c.s1, c.s2, c.want, got)
+		}
+	}
+}
+
+func TestExtendString(t *testing.T) {
+	cases := []struct {
+		s1   []string
+		s2   string
+		want []string
+	}{
+		{[]string{"5", "1", "9"}, "5", []string{"5", "1", "9", "5"}},
+		{[]string{"7", "5", "3"}, "2", []string{"7", "5", "3", "2"}},
+		{[]string{"2", "1"}, "9", []string{"2", "1", "9"}},
+	}
+	for _, c := range cases {
+		got := ExtendString(c.s1, c.s2)
+		if !EqualString(got, c.want) {
+			t.Errorf("Expected ExtendString(%v, %v) to return %v, got %v", c.s1, c.s2, c.want, got)
 		}
 	}
 }

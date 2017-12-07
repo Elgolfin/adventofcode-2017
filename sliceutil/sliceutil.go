@@ -15,8 +15,31 @@ func Atoi(content string, separator string) []int {
 	return sliceOfInts
 }
 
-// Equal returns true if two slices are equal (same length, same values), false otherwise
-func Equal(s1, s2 []int) bool {
+// EqualInt returns true if two slices of int are equal (same length, same values), false otherwise
+func EqualInt(s1, s2 []int) bool {
+	if s1 == nil && s2 == nil {
+		return true
+	}
+
+	if s1 == nil || s2 == nil {
+		return false
+	}
+
+	if len(s1) != len(s2) {
+		return false
+	}
+
+	for i := range s1 {
+		if s1[i] != s2[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
+// EqualString returns true if two slices of int are equal (same length, same values), false otherwise
+func EqualString(s1, s2 []string) bool {
 	if s1 == nil && s2 == nil {
 		return true
 	}
@@ -49,4 +72,19 @@ func GetLargest(values []int) int {
 		}
 	}
 	return index
+}
+
+// ExtendString extends a slice by adding one item
+func ExtendString(slice []string, element string) []string {
+	n := len(slice)
+	if n == cap(slice) {
+		// Slice is full; must grow.
+		// We double its size and add 1, so if the size is zero we still grow.
+		newSlice := make([]string, len(slice), 2*len(slice)+1)
+		copy(newSlice, slice)
+		slice = newSlice
+	}
+	slice = slice[0 : n+1]
+	slice[n] = element
+	return slice
 }
