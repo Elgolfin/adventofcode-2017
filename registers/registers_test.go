@@ -5,18 +5,19 @@ import "testing"
 func TestExecute(t *testing.T) {
 
 	cases := []struct {
-		in   string
-		want int
+		in    string
+		want1 int
+		want2 int
 	}{
 		{`b inc 5 if a > 1
 a inc 1 if b < 5
 c dec -10 if a >= 1
-c inc -20 if c == 10`, 1},
+c inc -20 if c == 10`, 1, 10},
 	}
 	for _, c := range cases {
-		got := Execute(c.in)
-		if got != c.want {
-			t.Errorf("Expected Execute(%v) to return %d got %d", c.in, c.want, got)
+		got1, got2 := Execute(c.in)
+		if got1 != c.want1 || got2 != c.want2 {
+			t.Errorf("Expected Execute(%v) to return %d, %d got %d, %d", c.in, c.want1, c.want2, got1, got2)
 		}
 	}
 }

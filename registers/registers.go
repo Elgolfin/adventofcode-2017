@@ -7,9 +7,10 @@ import (
 )
 
 // Execute runs all the content instructions and returns the largest value in any register
-func Execute(content string) int {
+func Execute(content string) (int, int) {
 	instructionLines := strings.Split(content, "\n")
 	registers := make(map[string]int)
+	highestValueHeld := 0
 	for _, instructionLine := range instructionLines {
 		instruction := ParseInstructionLine(instructionLine)
 		// fmt.Printf("Processing instruction %v...\n", instructionLine)
@@ -24,9 +25,12 @@ func Execute(content string) int {
 		if isConditionFulfilled(instruction.ConditionOperator, conditionRegisterValue, instruction.ConditionValue) {
 			registers[instruction.RegisterName] = operate(instruction.Operator, currentRegisterValue, instruction.Value)
 		}
+		if registers[instruction.RegisterName] > highestValueHeld {
+			highestValueHeld = registers[instruction.RegisterName]
+		}
 		// fmt.Printf("%v\n", registers)
 	}
-	return getLargestValue(registers)
+	return getLargestValue(registers), highestValueHeld
 }
 
 func getLargestValue(registers map[string]int) int {

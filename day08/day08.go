@@ -23,7 +23,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day08 --- Part One --- result is: %v\n", registers.Execute(string(content)))
-	// fmt.Printf("Day08 --- Part Two --- result is: %v\n", neededWeightToBalance)
+	out1, out2 := registers.Execute(string(content))
+	fmt.Printf("Day08 --- Part One --- result is: %v\n", out1)
+	fmt.Printf("Day08 --- Part Two --- result is: %v\n", out2)
 
 }
