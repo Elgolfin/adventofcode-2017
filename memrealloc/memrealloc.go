@@ -18,7 +18,7 @@ func Redistribute(str string) (int, string, MemoryBank) {
 
 	footPrint[checksum] = true
 
-	for true {
+	for {
 		steps++
 		memBank.Redistribute()
 		checksum = memBank.String()
@@ -37,7 +37,7 @@ func GetLoopSize(str string) int {
 	_, checksumStep, memBank := Redistribute(str)
 	steps := 0
 
-	for true {
+	for {
 		steps++
 		memBank.Redistribute()
 		checksum := memBank.String()
@@ -54,7 +54,7 @@ func (mb *MemoryBank) Redistribute() {
 	currentIndex := sliceutil.GetLargest(mb.banks)
 	blocks := mb.banks[currentIndex]
 	mb.banks[currentIndex] = 0
-	for true {
+	for {
 		currentIndex++
 		if currentIndex >= len(mb.banks) {
 			currentIndex = 0
