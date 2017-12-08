@@ -61,7 +61,7 @@ func BalanceWeight(content string) (int, *Program) {
 		weight := 0
 		for _, aboveProgram := range unbalancedProg.ptrAbovePrograms {
 			// fmt.Printf("Getting the weight of the program %s...", aboveProgramName)
-			weight = getWeight(aboveProgram)
+			weight = aboveProgram.GetWeight()
 			weights[weight] = append(weights[weight], aboveProgram)
 		}
 
@@ -93,13 +93,14 @@ func BalanceWeight(content string) (int, *Program) {
 	return neededWeightToBalance, unbalancedProg
 }
 
-func getWeight(program *Program) int {
+// GetWeight returns the weight of the sub-tower's program
+func (program Program) GetWeight() int {
 	weight := program.Weight
 	// fmt.Printf("Getting the weight of the program %s (%d)...\n", program.Name, program.weight)
 	if len(program.ptrAbovePrograms) > 0 {
 		for _, aboveProgram := range program.ptrAbovePrograms {
 			// fmt.Printf("\tGetting the weight of the above program %s...\n", aboveProgram.Name)
-			weight += getWeight(aboveProgram)
+			weight += aboveProgram.GetWeight()
 			// fmt.Printf("... %d. Done.\n", weight)
 		}
 	}
