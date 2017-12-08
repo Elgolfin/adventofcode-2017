@@ -10,15 +10,12 @@ func FindExit(content string) int {
 	steps := 0
 	offset := 0
 	previousOffset := 0
-	for true {
+	for offset < len(instructions) {
 		previousOffset = offset
 		offset += instructions[offset]
 		instructions[previousOffset]++
 		steps++
 		// fmt.Printf("%d. %v\n", steps, instructions)
-		if offset >= len(instructions) {
-			break
-		}
 	}
 	return steps
 }
@@ -30,7 +27,7 @@ func FindExitSranger(content string) int {
 	offset := 0
 	previousOffset := 0
 	// fmt.Printf("%d. %v\n", steps, instructions)
-	for true {
+	for offset < len(instructions) {
 		previousOffset = offset
 		offset += instructions[offset]
 		if instructions[previousOffset] >= 3 {
@@ -40,9 +37,6 @@ func FindExitSranger(content string) int {
 		}
 		steps++
 		// fmt.Printf("%d. %v\n", steps, instructions)
-		if offset >= len(instructions) {
-			break
-		}
 	}
 	return steps
 }

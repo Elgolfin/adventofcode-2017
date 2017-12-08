@@ -21,7 +21,7 @@ func GetSteps(number float64) float64 {
 func GetFirstValueLargerThan(number float64) float64 {
 	var firstValue float64
 	c := NewCursor()
-	for true {
+	for {
 		c.currentNumber = sumAllAdjcentSquares(c)
 		// fmt.Printf("Number to look for: %f, cursor: %f\n", number, c.currentNumber)
 		if c.currentNumber > number {
