@@ -23,7 +23,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day07 --- Part One --- result is: %v\n", recurscircus.GetRootProgram(string(content)))
-	// fmt.Printf("Day07 --- Part Two --- result is: %v\n", memrealloc.GetLoopSize(string(content)))
+	fmt.Printf("Day07 --- Part One --- result is: %v\n", recurscircus.GetRootProgramName(string(content)))
+	neededWeightToBalance, _ := recurscircus.BalanceWeight(string(content))
+	fmt.Printf("Day07 --- Part Two --- result is: %v\n", neededWeightToBalance)
 
 }
