@@ -23,7 +23,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day09 --- Part One --- result is: %v\n", streamprocess.Score(string(content)))
-	// fmt.Printf("Day09 --- Part Two --- result is: %v\n", out2)
+	score, garbageSize := streamprocess.Score(string(content))
+	fmt.Printf("Day09 --- Part One --- result is: %v\n", score)
+	fmt.Printf("Day09 --- Part Two --- result is: %v\n", garbageSize)
 
 }
