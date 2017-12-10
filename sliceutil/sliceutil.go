@@ -88,3 +88,11 @@ func ExtendString(slice []string, element string) []string {
 	slice[n] = element
 	return slice
 }
+
+// ReverseInt reverses an array of strings (i.e. [2, 7, 3, 1] becomes [1, 3, 7, 2])
+func ReverseInt(input []int) []int {
+	for i := 0; i < len(input)/2; i++ {
+		input[i], input[len(input)-1-i] = input[len(input)-1-i], input[i]
+	}
+	return input
+}

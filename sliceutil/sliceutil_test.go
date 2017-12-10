@@ -102,3 +102,22 @@ func TestGetLargest(t *testing.T) {
 		}
 	}
 }
+
+func TestReversInt(t *testing.T) {
+	cases := []struct {
+		in   []int
+		want []int
+	}{
+		{[]int{5, 1, 9, 5}, []int{5, 9, 1, 5}},
+		{[]int{5, 1, 9}, []int{9, 1, 5}},
+		{[]int{5}, []int{5}},
+		{nil, nil},
+		{[]int{}, []int{}},
+	}
+	for _, c := range cases {
+		got := ReverseInt(c.in)
+		if !EqualInt(got, c.want) {
+			t.Errorf("Expected ReverseInt(%v) to return %v, got %v", c.in, c.want, got)
+		}
+	}
+}
