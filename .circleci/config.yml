@@ -27,3 +27,4 @@ jobs:
             day08 -input inputs/day08.txt
             day09 -input inputs/day09.txt
             day10 -input inputs/day10.txt
+            day11 -input inputs/day11.txt
