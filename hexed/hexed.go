@@ -1,9 +1,31 @@
 package hexed
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
-// CountSteps returns the fewest number of steps
-func CountSteps(content string) int {
+// GetFurthestSteps returns the number of steps he ever got the furthest from his starting position
+func GetFurthestSteps(content string) int {
+	path := strings.Split(content, ",")
+	currentPath := ""
+	furthestSteps := 0
+	for _, direction := range path {
+		if currentPath != "" {
+			currentPath = fmt.Sprintf("%s,%s", currentPath, direction)
+		} else {
+			currentPath = direction
+		}
+		steps := GetFewerSteps(currentPath)
+		if steps > furthestSteps {
+			furthestSteps = steps
+		}
+	}
+	return furthestSteps
+}
+
+// GetFewerSteps returns the fewest number of steps
+func GetFewerSteps(content string) int {
 	path := strings.Split(content, ",")
 	countDir := map[string]int{"nw": 0, "n": 0, "ne": 0, "se": 0, "s": 0, "sw": 0}
 	for _, direction := range path {

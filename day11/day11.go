@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day11 --- Part One --- result is: %v\n", hexed.CountSteps(string(content)))
-	// fmt.Printf("Day11 --- Part Two --- result is: %v\n", knothash.FullHash(string(content), 256))
+	fmt.Printf("Day11 --- Part One --- result is: %v\n", hexed.GetFewerSteps(string(content)))
+	fmt.Printf("Day11 --- Part Two --- result is: %v\n", hexed.GetFurthestSteps(string(content)))
 
 }
