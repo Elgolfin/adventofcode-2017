@@ -1,6 +1,11 @@
 package knothash
 
 import (
+	"bytes"
+	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/elgolfin/adventofcode-2017/sliceutil"
 )
 
@@ -12,6 +17,43 @@ func Hash(content string, size int) int {
 		circleKnots.ComputeKnot(n)
 	}
 	return circleKnots.GetHash()
+}
+
+// FullHash fully computes the knot hash
+func FullHash(content string, size int) string {
+	var buffer bytes.Buffer
+	asciiSequence := []byte(content)
+	buffer.WriteString(convert(asciiSequence))
+	if buffer.Len() > 0 {
+		buffer.WriteString(",17,31,73,47,23")
+	} else {
+		buffer.WriteString("17,31,73,47,23")
+	}
+	sequence := sliceutil.Atoi(buffer.String(), ",")
+	circleKnots := GetStringCircle(size)
+	for i := 0; i < 64; i++ {
+		for _, n := range sequence {
+			circleKnots.ComputeKnot(n)
+		}
+	}
+	var knotHash = ""
+	for i := 0; i < 256; i++ {
+		var hexaBlock = circleKnots.list[i]
+		for j := i + 1; j < i+16; j++ {
+			hexaBlock ^= circleKnots.list[j]
+		}
+		knotHash = fmt.Sprintf("%s%02x", knotHash, hexaBlock)
+		i += 15
+	}
+	return knotHash
+}
+
+func convert(b []byte) string {
+	s := make([]string, len(b))
+	for i := range b {
+		s[i] = strconv.Itoa(int(b[i]))
+	}
+	return strings.Join(s, ",")
 }
 
 // GetStringCircle returns a StringCircle of a size of size strings properly initialized
@@ -65,7 +107,7 @@ func (sc *StringCircle) ComputeKnot(n int) {
 
 	// Update the current position of the list
 	sc.currentPosition = sc.currentPosition + (n+sc.skipSize)%256
-	if sc.currentPosition > len(sc.list) {
+	if sc.currentPosition >= len(sc.list) {
 		sc.currentPosition -= len(sc.list)
 	}
 

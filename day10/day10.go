@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day10 --- Part One --- result is: %v\n", knothash.Hash(string(content), 256))
-	//fmt.Printf("Day10 --- Part Two --- result is: %v\n", garbageSize)
+	fmt.Printf("Day10 --- Part Two --- result is: %v\n", knothash.FullHash(string(content), 256))
 
 }

@@ -18,7 +18,25 @@ func TestHash(t *testing.T) {
 	for _, c := range cases {
 		got := Hash(c.in, 5)
 		if got != c.want {
-			t.Errorf("Expected Hash(%q) to return %v, got %v", c.in, c.want, got)
+			t.Errorf("Expected Hash(%q, 5) to return %v, got %v", c.in, c.want, got)
+		}
+	}
+}
+
+func TestFullHash(t *testing.T) {
+	cases := []struct {
+		in   string
+		want string
+	}{
+		{`1,2,3`, "3efbe78a8d82f29979031a4aa0b16a9d"},
+		{`AoC 2017`, "33efeb34ea91902bb2f59c9920caa6cd"},
+		{`1,2,4`, "63960835bcdc130f0b66d7ff4f6a5a8e"},
+		{``, "a2582a3a0e66e6e86e3812dcb672a272"},
+	}
+	for _, c := range cases {
+		got := FullHash(c.in, 256)
+		if got != c.want {
+			t.Errorf("Expected FullHash(%q, 256) to return %s, got %s", c.in, c.want, got)
 		}
 	}
 }
