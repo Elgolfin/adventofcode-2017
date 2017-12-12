@@ -14,8 +14,8 @@ func GetAllProgGroups(content string) (int, map[int]int) {
 	progArr := initializeProgArr(content)
 	progHistory := make(map[int]bool)
 	for progID := range progArr {
+		// Capture the programs group only if the progID program has not been processed yet or is not part of any programs group
 		if _, ok := progHistory[progID]; !ok {
-			// fmt.Printf("Processing %d...\n", progID)
 			currentHistory := make(map[int]bool)
 			progGroups[progID], currentHistory = getProgGroupCount(progArr, progID)
 			for k, v := range currentHistory {
@@ -26,7 +26,7 @@ func GetAllProgGroups(content string) (int, map[int]int) {
 	return len(progGroups), progGroups
 }
 
-// getProgGroupCount returns how many programs are in the group that contains the program ID
+// getProgGroupCount returns how many programs are in the group that contains the program ID and a map of programs that are part of that group
 func getProgGroupCount(progArr [][]int, masterProgID int) (int, map[int]bool) {
 	groupArr := []int{masterProgID}
 	progHistory := make(map[int]bool)
