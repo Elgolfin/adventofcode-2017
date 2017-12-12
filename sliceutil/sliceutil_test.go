@@ -121,3 +121,41 @@ func TestReversInt(t *testing.T) {
 		}
 	}
 }
+
+func TestInsertInt(t *testing.T) {
+	cases := []struct {
+		in     []int
+		insert int
+		want   []int
+	}{
+		{[]int{5, 1, 9, 8}, 4, []int{5, 1, 9, 8, 4}},
+		{[]int{}, 17, []int{17}},
+		{nil, 14, []int{14}},
+		{[]int{5, 1, 9, 4}, 4, []int{5, 1, 9, 4}},
+	}
+	for _, c := range cases {
+		got := InsertInt(c.insert, c.in)
+		if !EqualInt(got, c.want) {
+			t.Errorf("Expected InsertInt(%d, %v) to return %v, got %v", c.insert, c.in, c.want, got)
+		}
+	}
+}
+
+func TestHasInt(t *testing.T) {
+	cases := []struct {
+		in   []int
+		find int
+		want bool
+	}{
+		{[]int{5, 1, 9, 8}, 9, true},
+		{[]int{}, 17, false},
+		{nil, 14, false},
+		{[]int{5, 1, 9, 4}, 7, false},
+	}
+	for _, c := range cases {
+		got := HasInt(c.find, c.in)
+		if got != c.want {
+			t.Errorf("Expected HasInt(%d, %v) to return %v, got %v", c.find, c.in, c.want, got)
+		}
+	}
+}

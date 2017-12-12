@@ -96,3 +96,28 @@ func ReverseInt(input []int) []int {
 	}
 	return input
 }
+
+// InsertInt inserts an int in an array of int if it is not already present in the array
+func InsertInt(ins int, arr []int) []int {
+	found := false
+	for _, val := range arr {
+		if val == ins {
+			found = true
+			break
+		}
+	}
+	if !found {
+		arr = append(arr, ins)
+	}
+	return arr
+}
+
+// HasInt returns true if the array of ints has the value find, false otherwise
+func HasInt(find int, arr []int) bool {
+	for _, val := range arr {
+		if val == find {
+			return true
+		}
+	}
+	return false
+}
