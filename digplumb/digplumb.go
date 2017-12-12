@@ -8,18 +8,40 @@ import (
 	"github.com/elgolfin/adventofcode-2017/sliceutil"
 )
 
-// GetProgGroupCount returns how many programs are in the group that contains the program ID
-func GetProgGroupCount(content string, masterProgID int) int {
+// GetAllProgGroups returns the number of program groups and the map of the program groups
+func GetAllProgGroups(content string) (int, map[int]int) {
+	progGroups := make(map[int]int)
+	progArr := initializeProgArr(content)
+	progHistory := make(map[int]bool)
+	for progID := range progArr {
+		if _, ok := progHistory[progID]; !ok {
+			// fmt.Printf("Processing %d...\n", progID)
+			currentHistory := make(map[int]bool)
+			progGroups[progID], currentHistory = getProgGroupCount(progArr, progID)
+			for k, v := range currentHistory {
+				progHistory[k] = v
+			}
+		}
+	}
+	return len(progGroups), progGroups
+}
+
+// getProgGroupCount returns how many programs are in the group that contains the program ID
+func getProgGroupCount(progArr [][]int, masterProgID int) (int, map[int]bool) {
+	groupArr := []int{masterProgID}
+	progHistory := make(map[int]bool)
+	groupArr = processGroup(groupArr, masterProgID, progArr, progHistory)
+	return len(groupArr), progHistory
+}
+
+func initializeProgArr(content string) [][]int {
 	lines := strings.Split(content, "\n")
 	progArr := make([][]int, len(lines))
 	for _, line := range lines {
 		progID, progGroup := parseLine(line)
 		progArr[progID] = progGroup
 	}
-	groupArr := []int{masterProgID}
-	progHistory := make(map[int]bool)
-	groupArr = processGroup(groupArr, masterProgID, progArr, progHistory)
-	return len(groupArr)
+	return progArr
 }
 
 func processGroup(groupArr []int, masterProgID int, input [][]int, history map[int]bool) []int {

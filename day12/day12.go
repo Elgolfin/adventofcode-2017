@@ -22,8 +22,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Printf("Day12 --- Part One --- result is: %v\n", digplumb.GetProgGroupCount(string(content), 0))
-	//fmt.Printf("Day12 --- Part Two --- result is: %v\n", digplumb.GetFurthestSteps(string(content)))
+	n, progGroups := digplumb.GetAllProgGroups(string(content))
+	fmt.Printf("Day12 --- Part One --- result is: %v\n", progGroups[0])
+	fmt.Printf("Day12 --- Part Two --- result is: %v\n", n)
 
 }

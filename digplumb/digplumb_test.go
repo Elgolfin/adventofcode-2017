@@ -8,8 +8,9 @@ import (
 
 func TestGetProgGroupCount(t *testing.T) {
 	cases := []struct {
-		in   string
-		want int
+		in    string
+		want1 int // number of program groups
+		want2 int // number og programs in the group of progID 0
 	}{
 		{`0 <-> 2
 1 <-> 1
@@ -17,12 +18,12 @@ func TestGetProgGroupCount(t *testing.T) {
 3 <-> 2, 4
 4 <-> 2, 3, 6
 5 <-> 6
-6 <-> 4, 5`, 6},
+6 <-> 4, 5`, 2, 6},
 	}
 	for _, c := range cases {
-		got := GetProgGroupCount(c.in, 0)
-		if got != c.want {
-			t.Errorf("Expected GetProgGroupCount(%q) to return %v got %v", c.in, c.want, got)
+		n, progGroups := GetAllProgGroups(c.in)
+		if n != c.want1 || progGroups[0] != c.want2 {
+			t.Errorf("Expected GetAllProgGroups(%q) to return %d, %d got %d, %d", c.in, c.want1, c.want2, n, progGroups[0])
 		}
 	}
 }
