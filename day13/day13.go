@@ -23,6 +23,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("Day13 --- Part One --- result is: %v\n", packetscan.GoThroughTheFirewall(string(content)))
-	//fmt.Printf("Day13 --- Part Two --- result is: %v\n", n)
+	fmt.Printf("Day13 --- Part Two --- result is: %v\n", packetscan.GoSafelyThroughTheFirewall(string(content)))
 
 }

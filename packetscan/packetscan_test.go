@@ -6,6 +6,24 @@ import (
 	"github.com/elgolfin/adventofcode-2017/sliceutil"
 )
 
+func TestGoSafelyThroughTheFirewall(t *testing.T) {
+	cases := []struct {
+		in   string
+		want int
+	}{
+		{`0: 3
+1: 2
+4: 4
+6: 4`, 10},
+	}
+	for _, c := range cases {
+		got := GoSafelyThroughTheFirewall(c.in)
+		if got != c.want {
+			t.Errorf("Expected GoSafelyThroughTheFirewall(%q) to return %d, got %d", c.in, c.want, got)
+		}
+	}
+}
+
 func TestGoThroughTheFirewall(t *testing.T) {
 	cases := []struct {
 		in   string

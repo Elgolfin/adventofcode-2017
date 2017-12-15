@@ -12,20 +12,63 @@ const scannerDirection int = 1
 // GoThroughTheFirewall returns the severity of the whole trip through the firewall
 func GoThroughTheFirewall(content string) int {
 	f := InitializeFirewall(content)
+	severity, _ := goThroughTheFirewallWithDelay(content, 0, f)
+	return severity
+}
+
+// goThroughTheFirewallWithDelay returns the severity of the whole trip through the firewall except if the delay variable is set in which case it returns the first sevrity encountered; it will also return the Firewall state before trying to through for later reuse
+func goThroughTheFirewallWithDelay(content string, delay int, f Firewall) (int, Firewall) {
+	// fmt.Printf("\n\nDelay %d\n", delay)
+
 	currentPosition := -1
+	if delay == 0 {
+		currentPosition = -1
+	} else {
+		for f.picosecond < delay {
+			f.NextPicosecond()
+		}
+	}
+
+	scanners := make([]int, len(f.scanners))
+	scannersDir := make([]int, len(f.scannersDir))
+	copy(scanners, f.scanners)
+	copy(scannersDir, f.scannersDir)
+	fBak := Firewall{f.layers, scanners, scannersDir, f.picosecond}
+
 	severity := 0
 	for i := 0; i < len(f.scanners); i++ {
 		currentPosition++
-		// fmt.Printf("Move to %d (scanner: %d)\n", currentPosition, f.scanners[i])
+		// fmt.Printf("Move to %d (scanner %d at: %d)\n", currentPosition, i, f.scanners[i])
 		// fmt.Printf("\tScanners (picosecond: %d) %v\n", f.picosecond, f.scanners)
 		// Caught!!!
 		if f.scanners[i] == 0 {
 			severity += i * f.layers[i]
 			// fmt.Printf("\tCaught! (%d)\n", severity)
+			if delay > 0 {
+				if severity == 0 {
+					severity = 1
+				}
+				break
+			}
 		}
 		f.NextPicosecond()
 	}
-	return severity
+	return severity, fBak
+}
+
+// GoSafelyThroughTheFirewall returns the number of picoseconds we need to wait before being able to go safely through the firewall
+func GoSafelyThroughTheFirewall(content string) int {
+	delay := 1
+	f := InitializeFirewall(content)
+	var severity int
+	for {
+		severity, f = goThroughTheFirewallWithDelay(content, delay, f)
+		if severity == 0 {
+			break
+		}
+		delay++
+	}
+	return delay
 }
 
 // ParseLine returns the progID and the communication programs IDs of a line of text
