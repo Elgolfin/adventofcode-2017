@@ -17,6 +17,6 @@ func main() {
 	flag.Parse()
 
 	fmt.Printf("Day15 --- Part One --- result is: %v\n", generator.Judge(input))
-	//fmt.Printf("Day15 --- Part Two --- result is: %v\n", packetscan.GoSafelyThroughTheFirewall(string(content)))
+	fmt.Printf("Day15 --- Part Two --- result is: %v\n", generator.ImpatientJudge(input))
 
 }

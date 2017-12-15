@@ -21,6 +21,23 @@ func Judge(content string) int {
 	return finalCount
 }
 
+// ImpatientJudge returns the final count after generating 40 millions pairs
+func ImpatientJudge(content string) int {
+	mask := 65535
+	genStartValues := sliceutil.Atoi(content, ",")
+	genA := Generator{genStartValues[0], 16807, 2147483647, -1}
+	genB := Generator{genStartValues[1], 48271, 2147483647, -1}
+	finalCount := 0
+	for i := 0; i < 5000000; i++ {
+		valueA := genA.NextValuePicky(4)
+		valueB := genB.NextValuePicky(8)
+		if valueA&mask == valueB&mask {
+			finalCount++
+		}
+	}
+	return finalCount
+}
+
 // NextValue returns the next value calculated by the generator
 func (g *Generator) NextValue() int {
 	// fmt.Printf("%v\n", g)
@@ -29,6 +46,21 @@ func (g *Generator) NextValue() int {
 		previousValue = g.startValue
 	}
 	g.currentValue = previousValue * g.factor % g.divideBy
+	return g.currentValue
+}
+
+// NextValuePicky returns the next value calculated by the generator
+func (g *Generator) NextValuePicky(multiple int) int {
+	for {
+		previousValue := g.currentValue
+		if previousValue == -1 {
+			previousValue = g.startValue
+		}
+		g.currentValue = previousValue * g.factor % g.divideBy
+		if g.currentValue%multiple == 0 {
+			break
+		}
+	}
 	return g.currentValue
 }
 
