@@ -303,4 +303,4 @@ Because all smaller delays would get you caught, the fewest number of picosecond
 
 What is the fewest number of picoseconds that you need to delay the packet to pass through the firewall without being caught?
 
-3833504
+Your puzzle answer was 3833504.
