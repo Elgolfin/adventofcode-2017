@@ -6,12 +6,47 @@ import (
 	"strings"
 )
 
-// Dance returns the order of the programs after the dance
-func Dance(content string, n int) string {
+// BillionDance returns the order of the programs after one billion dances
+func BillionDance(content string, n int) string {
 	lines := strings.Split(content, ",")
-	p := InitializePrograms(n)
+	moves := make([]Move, len(lines))
 	for _, line := range lines {
-		move := parseLine(line)
+		moves = append(moves, parseLine(line))
+	}
+	firstDance := ""
+	historyDances := []string{}
+	p := InitializePrograms(n)
+	// Only perform the loop until we find two identical programs standing after executing many dances
+	// It will mean that every n dances, the dances ends with the same results (so, there is no need to execute 1,000,000,000 times the loop)
+	for i := 1; i <= 10000000000; i++ {
+		p.Dance(moves)
+		if i == 1 {
+			firstDance = string(p.progs)
+			historyDances = append(historyDances, firstDance)
+		} else {
+			currentDance := string(p.progs)
+			if currentDance == firstDance {
+				break
+			}
+			historyDances = append(historyDances, currentDance)
+		}
+	}
+
+	// Find the last dance standing
+	lastDance := 10000000000 % len(historyDances)
+	// If the remainder equals 0, it means the last dance standing is the last dance that has been recorded in the history
+	// Otherwise we need to substract one to the remainder to find the right index in the array of dances
+	if lastDance == 0 {
+		lastDance = len(historyDances) - 1
+	} else {
+		lastDance--
+	}
+	return historyDances[lastDance]
+}
+
+// Dance executes a series of dance moves with the sepcified programs
+func (p *Programs) Dance(moves []Move) {
+	for _, move := range moves {
 		switch {
 		case move.name == "Spin":
 			// fmt.Printf("Spin %d\n", move.size)
@@ -24,6 +59,17 @@ func Dance(content string, n int) string {
 			p.Partner(move.prog1, move.prog2)
 		}
 	}
+}
+
+// Dance returns the order of the programs after the dance
+func Dance(content string, n int) string {
+	lines := strings.Split(content, ",")
+	moves := make([]Move, len(lines))
+	for _, line := range lines {
+		moves = append(moves, parseLine(line))
+	}
+	p := InitializePrograms(n)
+	p.Dance(moves)
 	return string(p.progs)
 }
 

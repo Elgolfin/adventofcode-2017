@@ -19,6 +19,21 @@ func TestDance(t *testing.T) {
 	}
 }
 
+func TestBillionDance(t *testing.T) {
+	cases := []struct {
+		in   string
+		want string
+	}{
+		{`s1,x3/4,pe/b`, `abcde`},
+	}
+	for _, c := range cases {
+		got := BillionDance(c.in, 5)
+		if got != c.want {
+			t.Errorf("Expected BillionDance(%s, %d) to return %v, got %v", c.in, 5, c.want, got)
+		}
+	}
+}
+
 func TestSpin(t *testing.T) {
 	cases := []struct {
 		in   int

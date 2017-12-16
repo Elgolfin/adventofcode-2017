@@ -23,6 +23,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("Day16 --- Part One --- result is: %v\n", permprom.Dance(string(content), 16))
-	// fmt.Printf("Day16 --- Part Two --- result is: %v\n", packetscan.GoSafelyThroughTheFirewall(string(content)))
+	fmt.Printf("Day16 --- Part Two --- result is: %v\n", permprom.BillionDance(string(content), 16))
 
 }
