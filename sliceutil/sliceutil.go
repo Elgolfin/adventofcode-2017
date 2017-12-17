@@ -121,3 +121,18 @@ func HasInt(find int, arr []int) bool {
 	}
 	return false
 }
+
+// CircularAdd returns the next index after adding n to the current index in an array of the specified length
+func CircularAdd(currentIndex int, n int, length int) int {
+	newIndex := 0
+
+	if length <= 0 {
+		return 0
+	}
+
+	newIndex = currentIndex + n
+	if newIndex >= length {
+		newIndex = newIndex % length
+	}
+	return newIndex
+}

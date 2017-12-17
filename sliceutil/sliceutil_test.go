@@ -159,3 +159,27 @@ func TestHasInt(t *testing.T) {
 		}
 	}
 }
+
+func TestCircularAdd(t *testing.T) {
+	cases := []struct {
+		currentIndex int
+		add          int
+		length       int
+		want         int
+	}{
+		{0, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 1, 3, 1},
+		{2, 1, 3, 0},
+		{2, 3, 3, 2},
+		{2, 4, 3, 0},
+		{1, 3, 3, 1},
+		{2, 3, 4, 1},
+	}
+	for _, c := range cases {
+		got := CircularAdd(c.currentIndex, c.add, c.length)
+		if got != c.want {
+			t.Errorf("Expected CircularAdd(%d, %d, %d) to return %d, got %d", c.currentIndex, c.add, c.length, c.want, got)
+		}
+	}
+}

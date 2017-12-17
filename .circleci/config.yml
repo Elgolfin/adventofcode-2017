@@ -33,3 +33,4 @@ jobs:
             day14 -input ffayrhll
             day15 -input 883,879
             day16 -input inputs/day16.txt
+            day17 -input 304
