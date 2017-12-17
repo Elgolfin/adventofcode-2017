@@ -4,25 +4,19 @@ import (
 	"github.com/elgolfin/adventofcode-2017/sliceutil"
 )
 
-// Process returns
+// Process returns the value after 2017
 func Process(n int) int {
 	circularBuffer := []int{0}
 	currentPosition := 0
-	// fmt.Printf("0.\t%v\n", circularBuffer)
 	for i := 1; i <= 2017; i++ {
-		// fmt.Printf("%d. %v", i, circularBuffer)
-		nextInsertPosition := sliceutil.CircularAdd(currentPosition, n, len(circularBuffer))
+		nextInsertPosition := sliceutil.CircularAdd(currentPosition, n, len(circularBuffer)) + 1
 
-		startBuffer := circularBuffer[:nextInsertPosition+1]
-		endBuffer := circularBuffer[nextInsertPosition+1:]
+		startBuffer := circularBuffer[:nextInsertPosition]
+		endBuffer := circularBuffer[nextInsertPosition:]
 
-		if nextInsertPosition == 0 {
-			startBuffer = circularBuffer[:1]
-			endBuffer = circularBuffer[1:]
-		}
-		if nextInsertPosition+1 > len(circularBuffer) {
+		if nextInsertPosition > len(circularBuffer) {
 			startBuffer = circularBuffer[:]
-			endBuffer = circularBuffer[len(circularBuffer):]
+			endBuffer = []int{}
 		}
 
 		tmpStartBuffer := make([]int, len(startBuffer))
@@ -33,11 +27,29 @@ func Process(n int) int {
 
 		tmpStartBuffer = append(tmpStartBuffer, i)
 		circularBuffer = append(tmpStartBuffer, tmpEndBuffer...)
-		currentPosition = len(tmpStartBuffer) - 1
+		currentPosition = nextInsertPosition
 	}
 	afterPos := currentPosition + 1
 	if currentPosition >= len(circularBuffer) {
 		afterPos = 0
 	}
 	return circularBuffer[afterPos]
+}
+
+// AngryProcess returns the value after 0 the moment 50,000,000 is inserted
+func AngryProcess(n int) int {
+	currentPosition := 0
+	valueAfter0 := 0
+	for i := 1; i <= 50000000; i++ {
+		nextInsertPosition := sliceutil.CircularAdd(currentPosition, n, i) + 1
+
+		// The value 0 will always be at index 0, so the value after 0 will always be inserted at index 1
+		if nextInsertPosition == 1 {
+			valueAfter0 = i
+		}
+
+		currentPosition = nextInsertPosition
+	}
+
+	return valueAfter0
 }

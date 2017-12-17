@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestDance(t *testing.T) {
+func TestProcess(t *testing.T) {
 	cases := []struct {
 		in   int
 		want int
@@ -15,6 +15,21 @@ func TestDance(t *testing.T) {
 		got := Process(c.in)
 		if got != c.want {
 			t.Errorf("Expected Process(%d) to return %v, got %v", c.in, c.want, got)
+		}
+	}
+}
+
+func TestAngryProcess(t *testing.T) {
+	cases := []struct {
+		in   int
+		want int
+	}{
+		{304, 1930815},
+	}
+	for _, c := range cases {
+		got := AngryProcess(c.in)
+		if got != c.want {
+			t.Errorf("Expected AngryProcess(%d) to return %v, got %v", c.in, c.want, got)
 		}
 	}
 }

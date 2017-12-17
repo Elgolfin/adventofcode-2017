@@ -19,6 +19,6 @@ func main() {
 
 	n, _ := strconv.Atoi(input)
 	fmt.Printf("Day17 --- Part One --- result is: %v\n", spinlock.Process(n))
-	// fmt.Printf("Day17 --- Part Two --- result is: %v\n", permprom.BillionDance(input, 16))
+	fmt.Printf("Day17 --- Part Two --- result is: %v\n", spinlock.AngryProcess(n))
 
 }
