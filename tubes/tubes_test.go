@@ -12,20 +12,21 @@ F---|----E|--+
 */
 func TestWalkTheLine(t *testing.T) {
 	cases := []struct {
-		in   string
-		want string
+		in    string
+		want1 string
+		want2 int
 	}{
 		{`    |         
     |  +--+   
     A  |  C   
 F---|----E|--+
     |  |  |  D
-    +B-+  +--+`, "ABCDEF"},
+    +B-+  +--+`, "ABCDEF", 38},
 	}
 	for _, c := range cases {
-		got := WalkTheLine(c.in)
-		if got != c.want {
-			t.Errorf("Expected WalkTheLine(%q) to return %v got %v", c.in, c.want, got)
+		got1, got2 := WalkTheLine(c.in)
+		if got1 != c.want1 || got2 != c.want2 {
+			t.Errorf("Expected WalkTheLine(%q) to return %v, %v got %v, %v", c.in, c.want1, c.want2, got1, got2)
 		}
 	}
 }

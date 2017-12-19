@@ -22,7 +22,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Day19 --- Part One --- result is: %v\n", tubes.WalkTheLine(string(content)))
-	//fmt.Printf("Day19 --- Part Two --- result is: %v\n", duet.Run(string(content)))
+	
+
+	result, steps	:=tubes.WalkTheLine(string(content))
+	fmt.Printf("Day19 --- Part One --- result is: %v\n", result)
+	fmt.Printf("Day19 --- Part Two --- result is: %v\n", steps)
 
 }

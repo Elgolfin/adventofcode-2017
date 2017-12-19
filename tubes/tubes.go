@@ -16,8 +16,9 @@ const top = 4
 const bottom = 8
 
 // WalkTheLine returns the path taken by the lost network packet
-func WalkTheLine(content string) string {
+func WalkTheLine(content string) (string, int) {
 	result := ""
+	steps := 2
 	network := initializeNetwork(content)
 	// fmt.Printf("%v\n", network)
 	currentPosition := network.getStartingPoint()
@@ -31,10 +32,12 @@ func WalkTheLine(content string) string {
 		currentPosition = nextPosition
 		nextPosition, direction = network.getNextPosition(currentPosition, direction)
 		// fmt.Printf("END: %v %v %v", currentPosition, nextPosition, network.isEnd(currentPosition, nextPosition))
+		steps++
 	}
+
 	result += string(network.grid[nextPosition.y][nextPosition.x])
 	// fmt.Printf("\n")
-	return result
+	return result, steps
 }
 
 // Looking for the starting point
