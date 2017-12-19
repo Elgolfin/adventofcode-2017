@@ -35,3 +35,4 @@ jobs:
             day16 -input inputs/day16.txt
             day17 -input 304
             day18 -input inputs/day18.txt
+            day19 -input inputs/day19.txt
