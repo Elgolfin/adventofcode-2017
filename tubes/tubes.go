@@ -20,23 +20,18 @@ func WalkTheLine(content string) (string, int) {
 	result := ""
 	steps := 2
 	network := initializeNetwork(content)
-	// fmt.Printf("%v\n", network)
 	currentPosition := network.getStartingPoint()
 	nextPosition, direction := network.getNextPosition(currentPosition, bottom)
 	for !network.isEnd(currentPosition, nextPosition) {
-		// fmt.Printf("%v %v %v", currentPosition, nextPosition, network.isEnd(currentPosition, nextPosition))
-		// fmt.Printf("\t%s", string(network.grid[currentPosition.y][currentPosition.x]))
 		if unicode.IsLetter(network.grid[currentPosition.y][currentPosition.x]) {
 			result += string(network.grid[currentPosition.y][currentPosition.x])
 		}
 		currentPosition = nextPosition
 		nextPosition, direction = network.getNextPosition(currentPosition, direction)
-		// fmt.Printf("END: %v %v %v", currentPosition, nextPosition, network.isEnd(currentPosition, nextPosition))
 		steps++
 	}
 
 	result += string(network.grid[nextPosition.y][nextPosition.x])
-	// fmt.Printf("\n")
 	return result, steps
 }
 
@@ -58,30 +53,23 @@ func (n network) getNextPosition(currentPosition point, direction int) (point, i
 	// fmt.Printf("\n\tGet the next position of %v (going %v)\n", currentPosition, direction)
 	// There is a change in the direction
 	if n.grid[currentPosition.y][currentPosition.x] == plus {
-		// fmt.Printf("\t\tChange of direction")
 		if direction == left || direction == right {
 			postop, err := currentPosition.top()
-			// fmt.Printf(" to the top or bottom... ")
 			if !err && n.grid[postop.y][postop.x] != space {
 				nextPosition = postop
 				newDirection = top
-				// fmt.Printf(" top!\n")
 			} else {
 				nextPosition, _ = currentPosition.bottom(n.height)
 				newDirection = bottom
-				// fmt.Printf(" bottom!\n")
 			}
 		} else {
 			posleft, err := currentPosition.left()
-			// fmt.Printf(" to the left or right... ")
 			if !err && n.grid[posleft.y][posleft.x] != space {
 				nextPosition = posleft
 				newDirection = left
-				// fmt.Printf(" left!\n")
 			} else {
 				nextPosition, _ = currentPosition.right(n.width)
 				newDirection = right
-				// fmt.Printf(" right!\n")
 			}
 		}
 	} else { // No change of direction
@@ -96,7 +84,6 @@ func (n network) getNextPosition(currentPosition point, direction int) (point, i
 			nextPosition, _ = currentPosition.bottom(n.height)
 		}
 	}
-	// fmt.Printf("\tGoing to %v (%v)\n", nextPosition, newDirection)
 	return nextPosition, newDirection
 }
 
