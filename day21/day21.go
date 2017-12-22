@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day21 --- Part One --- result is: %v\n", fractart.Draw(string(content), 5))
-	//fmt.Printf("Day21 --- Part Two --- result is: %v\n", steps)
+	fmt.Printf("Day21 --- Part Two --- result is: %v\n", fractart.Draw(string(content), 18))
 
 }

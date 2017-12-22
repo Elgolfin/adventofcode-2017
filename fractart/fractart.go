@@ -1,7 +1,6 @@
 package fractart
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/elgolfin/adventofcode-2017/sliceutil"
@@ -12,9 +11,9 @@ func Draw(content string, iterations int) int {
 	square := InitializeSquare(".#./..#/###")
 	sq := square.Split()
 	rules, rulesReplacement := loadRules(content)
-	fmt.Printf("%v\n", square)
+	// fmt.Printf("%v\n", square)
 	for i := 0; i < iterations; i++ {
-		fmt.Printf("Iteration#%d\n", i+1)
+		// fmt.Printf("Iteration#%d\n", i+1)
 		tmpSq := SquareCollection{make([][]Square, len(sq.items))}
 		for j, row := range sq.items {
 			tmpSq.items[j] = make([]Square, len(row))
@@ -22,18 +21,18 @@ func Draw(content string, iterations int) int {
 				for l, rule := range rules {
 					if s.DoesMatchRule(rule) {
 						tmpSq.items[j][k] = Square{rulesReplacement[l].grid}
-						fmt.Printf("Found: %v\n", tmpSq.items[j][k])
+						// fmt.Printf("Found: %v\n", tmpSq.items[j][k])
 						break
 					}
 				}
 			}
 		}
 
-		fmt.Printf("Col: %v\n", tmpSq.items)
+		// fmt.Printf("Col: %v\n", tmpSq.items)
 		square = tmpSq.Merge()
-		fmt.Printf("Sq: %v\n", square)
+		// fmt.Printf("Sq: %v\n", square)
 		sq = square.Split()
-		fmt.Printf("Split: %v\n", sq)
+		// fmt.Printf("Split: %v\n", sq)
 	}
 	return square.CountPixelOn()
 }
