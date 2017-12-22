@@ -45,6 +45,29 @@ func TestEqualInt(t *testing.T) {
 	}
 }
 
+func TestEqual2DString(t *testing.T) {
+	cases := []struct {
+		s1   [][]string
+		s2   [][]string
+		want bool
+	}{
+		{[][]string{}, [][]string{}, true},
+		{nil, nil, true},
+		{nil, [][]string{}, false},
+		{[][]string{nil}, [][]string{nil}, true},
+		{[][]string{[]string{"a", "b"}}, [][]string{[]string{"a", "b"}}, true},
+		{[][]string{[]string{"a", "b"}}, [][]string{[]string{"a"}}, false},
+		{[][]string{[]string{"a", "b"}}, [][]string{[]string{"a"}, []string{"a"}}, false},
+		{[][]string{[]string{"a", "b"}, []string{"c"}}, [][]string{[]string{"a", "b"}, []string{"c"}}, true},
+	}
+	for _, c := range cases {
+		got := Equal2DString(c.s1, c.s2)
+		if got != c.want {
+			t.Errorf("Expected Equal2DString(%v, %v) to return %v, got %v", c.s1, c.s2, c.want, got)
+		}
+	}
+}
+
 func TestEqualString(t *testing.T) {
 	cases := []struct {
 		s1   []string
