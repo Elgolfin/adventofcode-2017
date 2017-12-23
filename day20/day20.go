@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day20 --- Part One --- result is: %v\n", partswarm.GetClosestParticleToOrigin(string(content)))
-	// fmt.Printf("Day20 --- Part Two --- result is: %v\n", fractart.Draw(string(content), 18))
+	fmt.Printf("Day20 --- Part Two --- result is: %v\n", partswarm.ResolveCollisions(string(content)))
 
 }

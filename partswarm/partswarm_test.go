@@ -4,6 +4,26 @@ import (
 	"testing"
 )
 
+func TestResolveCollisions(t *testing.T) {
+	cases := []struct {
+		in   string
+		want int
+	}{
+
+		{`p=<-6,0,0>, v=<3,0,0>, a=<0,0,0>
+p=<-4,0,0>, v=<2,0,0>, a=<0,0,0>
+p=<-2,0,0>, v=<1,0,0>, a=<0,0,0>
+p=<3,0,0>, v=<-1,0,0>, a=<0,0,0>`, 1,
+		},
+	}
+	for _, c := range cases {
+		got := ResolveCollisions(c.in)
+		if got != c.want {
+			t.Errorf("Expected ResolveCollisions(%v) to return %v, got %v", c.in, c.want, got)
+		}
+	}
+}
+
 func TestGetClosestParticleToOrigin(t *testing.T) {
 	cases := []struct {
 		in   string

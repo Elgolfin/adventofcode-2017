@@ -1,12 +1,15 @@
 package partswarm
 
 import (
+	"fmt"
 	"math"
 	"regexp"
 	"strings"
 
 	"github.com/elgolfin/adventofcode-2017/sliceutil"
 )
+
+const longTermTicks = 1000
 
 // GetClosestParticleToOrigin returns the particle that will stay closest to position <0,0,0> in the long term
 func GetClosestParticleToOrigin(content string) int {
@@ -41,11 +44,62 @@ func GetClosestParticleToOrigin(content string) int {
 			previousClosestParticleID = closestParticleID
 			count = 1
 		}
-		if count >= 1000 {
+		if count >= longTermTicks {
 			break
 		}
 	}
 	return closestParticleID
+}
+
+// ResolveCollisions returns the number of particles left after all collisions are resolved
+func ResolveCollisions(content string) int {
+	count := 0
+	previousTickCollision := false
+	particlesStr := strings.Split(content, "\n")
+	particles := make([]Particle, len(particlesStr))
+
+	destroyedParticles := []int{}
+
+	for ID, particleStr := range particlesStr {
+		particles[ID] = InitializeParticle(particleStr)
+	}
+
+	for tick := 1; ; tick++ {
+		// Reset the collision map
+		collision := false
+		collisionMap := make(map[string][]int)
+		for particleID := range particles {
+			// Do nothing if the particle has already been destroyed
+			if sliceutil.HasInt(particleID, destroyedParticles) {
+				continue
+			}
+
+			particle := &particles[particleID]
+			particle.Update()
+			pos := fmt.Sprintf("%d,%d,%d", particle.position.x, particle.position.y, particle.position.z)
+			if _, ok := collisionMap[pos]; !ok {
+				collisionMap[pos] = []int{particleID}
+			} else {
+				collisionMap[pos] = append(collisionMap[pos], particleID)
+				if len(collisionMap[pos]) > 1 {
+					collision = true
+				}
+				for _, ID := range collisionMap[pos] {
+					destroyedParticles = sliceutil.InsertInt(ID, destroyedParticles)
+				}
+			}
+		}
+
+		if previousTickCollision == false && collision == false {
+			count++
+		} else {
+			count = 1
+		}
+		if count >= longTermTicks {
+			break
+		}
+	}
+	return len(particles) - len(destroyedParticles)
 }
 
 // InitializeParticle returns a particle struct from an input string
