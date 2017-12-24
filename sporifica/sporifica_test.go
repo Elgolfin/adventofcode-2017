@@ -6,6 +6,27 @@ import (
 	"github.com/elgolfin/adventofcode-2017/maputil"
 )
 
+func TestBurstV2(t *testing.T) {
+	cases := []struct {
+		in1  string
+		in2  int
+		want int
+	}{
+		{`..#
+#..
+...`, 100, 26},
+		{`..#
+#..
+...`, 10000000, 2511944},
+	}
+	for _, c := range cases {
+		got := BurstV2(c.in1, c.in2)
+		if got != c.want {
+			t.Errorf("Expected BurstV2(%s, %d) to return %v got %v", c.in1, c.in2, c.want, got)
+		}
+	}
+}
+
 func TestBurst(t *testing.T) {
 	cases := []struct {
 		in1  string

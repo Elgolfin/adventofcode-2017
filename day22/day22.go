@@ -24,6 +24,6 @@ func main() {
 	}
 
 	fmt.Printf("Day22 --- Part One --- result is: %v\n", sporifica.Burst(string(content), 10000))
-	//fmt.Printf("Day22 --- Part Two --- result is: %v\n", fractart.Draw(string(content), 18))
+	fmt.Printf("Day22 --- Part Two --- result is: %v\n", sporifica.BurstV2(string(content), 10000000))
 
 }
