@@ -40,3 +40,4 @@ jobs:
             day21 -input inputs/day21.txt
             day22 -input inputs/day22.txt
             day23 -input inputs/day23.txt
+            day24 -input inputs/day24.txt

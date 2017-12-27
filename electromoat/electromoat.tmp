@@ -1,0 +1,159 @@
+package electromoat
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+// FindHeaviestBridge returns the weight of the heaviest bridge
+func FindHeaviestBridge(content string) int {
+	availableComponents := LoadComponents(content)
+	fmt.Printf("%v\n", availableComponents)
+	root := BridgeNode{Component{0, 0}, 0, []*BridgeNode{}}
+	fmt.Printf("%v\n", root)
+	BuildBridgeTree(&root, availableComponents, 0)
+	fmt.Printf("%s\n", PrintBridgeTree(&root))
+	return root.weight
+}
+
+// BuildBridgeTree returns
+func BuildBridgeTree(node *BridgeNode, availableComponents []Component, level int) {
+	pre := fmt.Sprintf("%d.\t", level)
+	for d := 0; d < level; d++ {
+		pre = fmt.Sprintf("%s\t", pre)
+	}
+	var components []Component
+	if level == 0 {
+		components := getRootComponents(availableComponents)
+		fmt.Printf("%sComponents with a port of %d or %d: %v\n", pre, node.component.port1, node.component.port2, components)
+		if len(components) < 1 {
+			fmt.Printf("\n")
+		}
+		for i, componentToAdd := range components {
+			newAvailableComponents := removeComponent(componentToAdd, availableComponents)
+			//fmt.Printf("%sCurrent Node (before adding): %v\n", pre, node)
+			newNode := node.AddChild(componentToAdd)
+			fmt.Printf("%s%d. Node to add: %v %p\n", pre, i+1, newNode, &newNode)
+			fmt.Printf("%sRemaining components to add: %v\n", pre, newAvailableComponents)
+			//fmt.Printf("%sCurrent Node (after adding): %v\n\n", pre, node)
+			level++
+			BuildBridgeTree(newNode, newAvailableComponents, level)
+			level--
+		}
+	} else {
+		components1 := getComponents(node.component.port1, availableComponents)
+		fmt.Printf("%sComponents with a port of %d or %d: %v\n", pre, node.component.port1, node.component.port2, components)
+		if len(components) < 1 {
+			fmt.Printf("\n")
+		}
+		for i, componentToAdd := range components1 {
+			newAvailableComponents := removeComponent(componentToAdd, availableComponents)
+			//fmt.Printf("%sCurrent Node (before adding): %v\n", pre, node)
+			newNode := node.AddChild(componentToAdd)
+			fmt.Printf("%s%d. Node to add: %v %p\n", pre, i+1, newNode, &newNode)
+			fmt.Printf("%sRemaining components to add: %v\n", pre, newAvailableComponents)
+			//fmt.Printf("%sCurrent Node (after adding): %v\n\n", pre, node)
+			level++
+			BuildBridgeTree(newNode, newAvailableComponents, level)
+			level--
+		}
+
+		if node.component.port2 != node.component.port1 {
+			components2 := getComponents(node.component.port2, availableComponents)
+			for i, componentToAdd := range components2 {
+				newAvailableComponents := removeComponent(componentToAdd, availableComponents)
+				//fmt.Printf("%sCurrent Node (before adding): %v\n", pre, node)
+				newNode := node.AddChild(componentToAdd)
+				fmt.Printf("%s%d. Node to add: %v %p\n", pre, i+1, newNode, &newNode)
+				fmt.Printf("%sRemaining components to add: %v\n", pre, newAvailableComponents)
+				//fmt.Printf("%sCurrent Node (after adding): %v\n\n", pre, node)
+				level++
+				BuildBridgeTree(newNode, newAvailableComponents, level)
+				level--
+			}
+		}
+	}
+}
+
+// LoadComponents returns an array of components from a string
+func LoadComponents(content string) []Component {
+	componentsStr := strings.Split(content, "\n")
+	components := []Component{}
+	for _, componentStr := range componentsStr {
+		ports := strings.Split(componentStr, "/")
+		port1, _ := strconv.Atoi(ports[0])
+		port2, _ := strconv.Atoi(ports[1])
+		component := Component{port1, port2}
+		components = append(components, component)
+	}
+	return components
+}
+
+// PrintBridgeTree returns the bridge tree printing
+func PrintBridgeTree(root *BridgeNode) string {
+	fmt.Printf("%v\n", root)
+	print := ""
+	if len(root.children) > 0 {
+		for _, node := range root.children {
+			print += fmt.Sprintf("%d,%d--%s", root.component.port1, root.component.port2, PrintBridgeTree(node))
+		}
+	} else {
+		print += fmt.Sprintf("%d,%d\n", root.component.port1, root.component.port2)
+	}
+	return print
+}
+
+// removeComponent removes the specified component from the list
+func removeComponent(component Component, components []Component) []Component {
+	resultComponents := []Component{}
+	for _, comp := range components {
+		if comp.port1 != component.port1 || comp.port2 != component.port2 {
+			resultComponents = append(resultComponents, comp)
+		}
+	}
+	return resultComponents
+}
+
+func getRootComponents(components []Component) []Component {
+	resultComponents := []Component{}
+	for _, component := range components {
+		if component.port1 == 0 || component.port2 == 0 {
+			resultComponents = append(resultComponents, component)
+		}
+	}
+	return resultComponents
+}
+
+func getComponents(connector int, components []Component) []Component {
+	resultComponents := []Component{}
+	for _, component := range components {
+		if component.port1 == connector || component.port2 == connector {
+			if component.port1 != 0 && component.port2 != 0 {
+				resultComponents = append(resultComponents, component)
+			}
+		}
+	}
+	return resultComponents
+}
+
+// AddChild ...
+func (bn *BridgeNode) AddChild(component Component) *BridgeNode {
+	weight := bn.weight + component.port1 + component.port2
+	addedNode := BridgeNode{component, weight, []*BridgeNode{}}
+	bn.children = append(bn.children, &addedNode)
+	return &addedNode
+}
+
+// BridgeNode ...
+type BridgeNode struct {
+	component Component
+	weight    int
+	children  []*BridgeNode
+}
+
+// Component ...
+type Component struct {
+	port1 int
+	port2 int
+}
