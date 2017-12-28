@@ -23,6 +23,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Day24 --- Part One --- result is: %v\n", electromoat.FindHeaviestBridge(string(content)))
-	//fmt.Printf("Day24 --- Part Two --- result is: %v\n", program.Run())
+	heaviestBridge, longestHeaviestBridge := electromoat.FindHeaviestBridges(string(content))
+
+	fmt.Printf("Day24 --- Part One --- result is: %v\n", heaviestBridge)
+	fmt.Printf("Day24 --- Part Two --- result is: %v\n", longestHeaviestBridge)
 }

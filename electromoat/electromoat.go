@@ -7,27 +7,35 @@ import (
 	"unicode"
 )
 
-// FindHeaviestBridge returns the weight of the heaviest bridge
-func FindHeaviestBridge(content string) int {
+// FindHeaviestBridges returns the weight of the heaviest bridge and the heaviest bridge that is the longest one
+func FindHeaviestBridges(content string) (int, int) {
 	availableComponents := LoadComponents(content)
-	chains := BuildChains("", make(map[string]int), 0, availableComponents)
+	chains := BuildBridges("", make(map[string]int), 0, availableComponents)
 	heaviestWeight := 0
+	longestHeaviestBridge := 0
+	longestBridge := 0
+	test := make(map[int]int)
+	// key1 := ""
+	// key2 := ""
 	for key := range chains {
-		_, weight := GetBridgeStats(key)
+		length, weight := GetBridgeStats(key)
 		if weight > heaviestWeight {
 			heaviestWeight = weight
+			// key1 = key
+		}
+		test[length]++
+		if length >= longestBridge {
+			// fmt.Printf("%v %v %v\n", length, weight, key)
+			longestBridge = length
+			if weight > longestHeaviestBridge {
+				longestHeaviestBridge = weight
+				// key2 = skey
+			}
 		}
 	}
-	return heaviestWeight
-}
-
-// CalculateWeight returns the weight of a chain
-func CalculateWeight(components []Component) int {
-	weight := 0
-	for _, component := range components {
-		weight += component.port1 + component.port2
-	}
-	return weight
+	// fmt.Printf("%v (%s), %v (%s), %v\n", heaviestWeight, key1, longestBridge, key2, longestHeaviestBridge)
+	fmt.Printf("%v\n", test)
+	return heaviestWeight, longestHeaviestBridge
 }
 
 // GetBridgeStats returns the length and weight of a chain
@@ -44,32 +52,19 @@ func GetBridgeStats(components string) (int, int) {
 		weight += currentWeight
 		length++
 	}
-	return length, weight
+	return length / 2, weight
 }
 
-// BuildChains returns an array of all possible chains
-func BuildChains(chain string, chains map[string]int, port int, componentsMap map[int][]Component) map[string]int {
-	if len(componentsMap[port]) > 0 {
-		for _, component := range componentsMap[port] {
-			key := strings.TrimSpace(fmt.Sprintf("%s--%d,%d", chain, component.port1, component.port2))
-			//if !IsComponentIn(component, chains[chain]) {
-			if !strings.Contains(chain, fmt.Sprintf("%d,%d", component.port1, component.port2)) {
-				chains[key] = chains[chain] + component.port1 + component.port2
-				chains = BuildChains(key, chains, component.getOtherPort(port), componentsMap)
-			}
+// BuildBridges returns an array of all possible chains
+func BuildBridges(chain string, chains map[string]int, port int, componentsMap map[int][]Component) map[string]int {
+	for _, component := range componentsMap[port] {
+		key := fmt.Sprintf("%s--%d,%d", chain, component.port1, component.port2)
+		if !strings.Contains(chain, fmt.Sprintf("--%d,%d", component.port1, component.port2)) {
+			chains[key] = chains[chain] + component.port1 + component.port2
+			chains = BuildBridges(key, chains, component.getOtherPort(port), componentsMap)
 		}
 	}
 	return chains
-}
-
-// IsComponentIn returns
-func IsComponentIn(component Component, components []Component) bool {
-	for _, c := range components {
-		if c.port1 == component.port1 && c.port2 == component.port2 {
-			return true
-		}
-	}
-	return false
 }
 
 // LoadComponents returns an array of components from a string
