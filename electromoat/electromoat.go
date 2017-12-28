@@ -15,8 +15,6 @@ func FindHeaviestBridges(content string) (int, int) {
 	longestHeaviestBridge := 0
 	longestBridge := 0
 	test := make(map[int]int)
-	// key1 := ""
-	// key2 := ""
 	for key := range chains {
 		length, weight := GetBridgeStats(key)
 		if weight > heaviestWeight {
@@ -25,16 +23,12 @@ func FindHeaviestBridges(content string) (int, int) {
 		}
 		test[length]++
 		if length >= longestBridge {
-			// fmt.Printf("%v %v %v\n", length, weight, key)
 			longestBridge = length
 			if weight > longestHeaviestBridge {
 				longestHeaviestBridge = weight
-				// key2 = skey
 			}
 		}
 	}
-	// fmt.Printf("%v (%s), %v (%s), %v\n", heaviestWeight, key1, longestBridge, key2, longestHeaviestBridge)
-	fmt.Printf("%v\n", test)
 	return heaviestWeight, longestHeaviestBridge
 }
 
