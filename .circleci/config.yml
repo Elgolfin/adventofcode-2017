@@ -41,3 +41,4 @@ jobs:
             day22 -input inputs/day22.txt
             day23 -input inputs/day23.txt
             day24 -input inputs/day24.txt
+            day25 -input 12629077
