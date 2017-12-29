@@ -62,6 +62,30 @@ func Equal2DString(s1, s2 [][]string) bool {
 
 }
 
+// Equal2DInt returns true if two 2D slices of int are equal (same length, same values), false otherwise
+func Equal2DInt(s1, s2 [][]int) bool {
+	if s1 == nil && s2 == nil {
+		return true
+	}
+
+	if s1 == nil || s2 == nil {
+		return false
+	}
+
+	if len(s1) != len(s2) {
+		return false
+	}
+
+	for i := range s1 {
+		if EqualInt(s1[i], s2[i]) == false {
+			return false
+		}
+	}
+
+	return true
+
+}
+
 // EqualString returns true if two slices of string are equal (same length, same values), false otherwise
 func EqualString(s1, s2 []string) bool {
 	if s1 == nil && s2 == nil {
