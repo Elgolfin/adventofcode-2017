@@ -4,10 +4,11 @@ import (
 	"testing"
 )
 
-func TestFindHeaviestBridge(t *testing.T) {
+func TestFindHeaviestBridges(t *testing.T) {
 	cases := []struct {
-		in   string
-		want int
+		in    string
+		want1 int
+		want2 int
 	}{
 		{`0/2
 2/2
@@ -16,12 +17,12 @@ func TestFindHeaviestBridge(t *testing.T) {
 3/5
 0/1
 10/1
-9/10`, 31},
+9/10`, 31, 19},
 	}
 	for _, c := range cases {
-		got := FindHeaviestBridge(c.in)
-		if got != c.want {
-			t.Errorf("Expected FindHeaviestBridge(%q) to return %d got %d", c.in, c.want, got)
+		got1, got2 := FindHeaviestBridges(c.in)
+		if got1 != c.want1 || got2 != c.want2 {
+			t.Errorf("Expected FindHeaviestBridges(%q) to return %d, %d got %d, %d", c.in, c.want1, c.want2, got1, got2)
 		}
 	}
 }
@@ -29,13 +30,13 @@ func TestFindHeaviestBridge(t *testing.T) {
 func TestBuildChains(t *testing.T) {
 	cases := []struct {
 		in   string
-		want map[string][]Component
+		want map[string]int
 	}{
 		//{``, []Component{}},
 		{`0/1
-0/2`, map[string][]Component{
-			"--0,1": []Component{Component{0, 1}},
-			"--0,2": []Component{Component{0, 2}},
+0/2`, map[string]int{
+			"--0,1": 1,
+			"--0,2": 2,
 		}},
 		{`0/2
 2/2
@@ -44,34 +45,32 @@ func TestBuildChains(t *testing.T) {
 3/5
 0/1
 10/1
-9/10`, map[string][]Component{
-			"--0,1":                []Component{Component{0, 1}},
-			"--0,1--10,1":          []Component{Component{0, 1}, Component{10, 1}},
-			"--0,1--10,1--9,10":    []Component{Component{0, 1}, Component{10, 1}, Component{9, 10}},
-			"--0,2":                []Component{Component{0, 2}},
-			"--0,2--2,3":           []Component{Component{0, 2}, Component{2, 3}},
-			"--0,2--2,3--3,4":      []Component{Component{0, 2}, Component{2, 3}, Component{3, 4}},
-			"--0,2--2,3--3,5":      []Component{Component{0, 2}, Component{2, 3}, Component{3, 5}},
-			"--0,2--2,2":           []Component{Component{0, 2}, Component{2, 2}},
-			"--0,2--2,2--2,3":      []Component{Component{0, 2}, Component{2, 2}, Component{2, 3}},
-			"--0,2--2,2--2,3--3,4": []Component{Component{0, 2}, Component{2, 2}, Component{2, 3}, Component{3, 4}},
-			"--0,2--2,2--2,3--3,5": []Component{Component{0, 2}, Component{2, 2}, Component{2, 3}, Component{3, 5}},
+9/10`, map[string]int{
+			"--0,1":                1,
+			"--0,1--10,1":          12,
+			"--0,1--10,1--9,10":    31,
+			"--0,2":                2,
+			"--0,2--2,3":           7,
+			"--0,2--2,3--3,4":      14,
+			"--0,2--2,3--3,5":      15,
+			"--0,2--2,2":           6,
+			"--0,2--2,2--2,3":      11,
+			"--0,2--2,2--2,3--3,4": 18,
+			"--0,2--2,2--2,3--3,5": 19,
 		}},
 	}
 	for _, c := range cases {
-		got := BuildChains("", make(map[string][]Component), 0, LoadComponents(c.in))
+		got := BuildBridges("", make(map[string]int), 0, LoadComponents(c.in))
 		equal := true
 		// fmt.Printf("%v\n", got)
 		for k, v := range got {
-			if len(c.want[k]) != len(v) {
+			if c.want[k] != v {
 				equal = false
 				break
 			}
-
 		}
-
 		if !equal {
-			t.Errorf("Expected LoadComponents(%q) to return %v got %v", c.in, c.want, got)
+			t.Errorf("Expected BuildChains(%q) to return %v got %v", c.in, c.want, got)
 		}
 	}
 }
